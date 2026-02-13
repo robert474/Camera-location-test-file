@@ -163,13 +163,15 @@ def process_511_system(data, source):
     for cam in cam_list:
         loc = cam.get("location", [])
         expando = cam.get("expando", {})
+        video_url = (expando.get("videoUrl") or expando.get("VideoUrl")
+                     or cam.get("videoUrl") or cam.get("VideoUrl"))
         cameras.append({
             "camera_id": str(cam.get("itemId", "")),
             "name": cam.get("title", ""),
             "latitude": loc[0] if len(loc) > 0 else None,
             "longitude": loc[1] if len(loc) > 1 else None,
             "image_url": f"{base_url}/map/Cameras/{cam.get('itemId', '')}",
-            "stream_url": None,
+            "stream_url": video_url,
             "direction": None,
             "road": None,
             "status": "online",
